@@ -21,4 +21,4 @@ target
 *.patch
 *.out
 *.ddl
-.vscode
+*.vscode
