@@ -13,7 +13,8 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Stateless
-public class BookEJB{
+@Local(BookLocal.class)
+public class BookEJBx implements BookLocal{
 
   @PersistenceContext(unitName = "chapter07PU")
   //@PersistenceContext(unitName = "chapter07PU", synchronization = SynchronizationType.UNSYNCHRONIZED)
@@ -25,10 +26,6 @@ public class BookEJB{
     return book;
   }
 
-  public Book update(Book book){
-    return em.merge(book);
-  }
-
   public Book findById(Long id){
     return em.find(Book.class, id);
   }
@@ -37,10 +34,4 @@ public class BookEJB{
     TypedQuery<Book> query = em.createNamedQuery("findAllBooks", Book.class); 
     return query.getResultList();
   }
-
-  public void delete(Book book){
-    em.remove(em.merge(book));
-  }
-
-
 }

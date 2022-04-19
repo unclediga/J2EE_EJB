@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 
 import java.io.File;
 
@@ -45,7 +46,56 @@ public class BookEJBIT {
 
   @Test
   public void t1() throws Exception {
-    assertNotNull(ctx.lookup("java:global/classes/BookEJB!ru.unclediga.book.ejb.ch07.ex01.BookEJB"));
+
+    Book book = new Book();
+    book.setTitle("The Hitchhiker's Guide to the Galaxy");
+    book.setPrice(12.5F);
+    book.setDescription("Science fiction comedy book");
+    book.setIsbn("1-84023-742-2");
+    book.setNbOfPage(354);
+    book.setIllustrations(false);
+
     assertNotNull(ctx.lookup("java:global/classes/BookEJB"));
+
+    BookEJB ejb = (BookEJB)ctx.lookup("java:global/classes/BookEJB");
+
+    book = ejb.create(book);
+    assertNotNull(book.getId());
+    System.out.println("id => " + book.getId());
+    book = ejb.findById(book.getId());
+    System.out.println("find by id -> " + book);
+    assertNotNull(book);    
+
+    List<Book> books = ejb.findAll();
+    assertNotNull(books);    
+    assertTrue(books.size() > 0);
   }
+
+  @Test
+  public void t2() throws Exception {
+
+    Book book = new Book();
+    book.setTitle("The Hitchhiker's Guide to the Galaxy");
+    book.setPrice(12.5F);
+    book.setDescription("Science fiction comedy book");
+    book.setIsbn("1-84023-742-2");
+    book.setNbOfPage(354);
+    book.setIllustrations(false);
+
+    assertNotNull(ctx.lookup("java:global/classes/BookEJBx"));
+
+    BookLocal ejb = (BookLocal)ctx.lookup("java:global/classes/BookEJBx");
+
+    book = ejb.create(book);
+    assertNotNull(book.getId());
+    System.out.println("id => " + book.getId());
+    book = ejb.findById(book.getId());
+    System.out.println("find by id -> " + book);
+    assertNotNull(book);    
+
+    List<Book> books = ejb.findAll();
+    assertNotNull(books);    
+    assertTrue(books.size() > 0);
+  }
+
 }
