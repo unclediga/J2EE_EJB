@@ -6,9 +6,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 
-@Stateless
-@Local(ConverterLocal.class)
-@LocalBean
+// @Stateless
+// @Local(ConverterLocal.class)
+// @LocalBean
 public class ConverterEJB implements ConverterLocal{
 
   @Resource(name ="rate")
