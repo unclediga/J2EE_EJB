@@ -10,10 +10,14 @@ import static org.junit.Assert.*;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Date;
+import java.util.Locale;
 
 import java.io.File;
 
 import java.util.logging.Logger;
+
+import java.text.DateFormat;
 
 public class TimerIT {
 
@@ -40,10 +44,21 @@ public class TimerIT {
     };
   } 
 
+  private String dat(){
+    return DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.GERMAN).format(new Date());
+  }
+
   @Test
   public void t1() throws Exception{
-    log.info("=> START TimerIT");
+    assertNotNull(ctx.lookup("java:global/classes/ProgramTimerEJB"));
+    log.info("=> START TimerIT "+ dat());
+    
+    ProgramTimerEJB t = (ProgramTimerEJB) ctx.lookup("java:global/classes/ProgramTimerEJB");
+    log.info("=> START Signal(10,'Hello, World!') " + dat());
+    t.createSignal(new Signal(10,"Hello, World!"));
+
     Thread.sleep(60 * 1000);
-    log.info("=> STOP TimerIT");
+    
+    log.info("=> STOP TimerIT " + dat());
   }
 }
